@@ -1,4 +1,4 @@
-{( base/header.html, { jsurls = {"//code.highcharts.com/highcharts.js", "//code.highcharts.com/modules/exporting.js"} } )}
+{( base/header.html, { jsurls = {} } )}
 
 <style type="text/css">
     .ajax-file-upload-statusbar {
@@ -162,7 +162,7 @@
 
 $(document).ready(function() {
 $("#fileuploader").uploadFile({
-        url: "http://192.2.4.82:8888/__admin__/upload/",
+        url: "/__admin__/upload/",
         fileName: "myfile"
     });
 });
