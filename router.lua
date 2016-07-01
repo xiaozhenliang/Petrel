@@ -31,9 +31,7 @@ if handler then
         ngx.exit(ngx.HTTP_SERVICE_UNAVAILABLE)
     end
 else
-    log.debuglog(ngx.var.request_uri)
     local res = ngx.location.capture(ngx.var.request_uri)
-    log.debuglog(res.status)
     ngx.status = res.status
     ngx.header = res.header
     ngx.say(res.body)

@@ -16,6 +16,7 @@ local redis = require("redis")
 local render = require("render")
 local http = require("http")
 local upload = require "resty.upload"
+local datetime = require("datetime")
 
 
 function _M.admin()
@@ -79,12 +80,13 @@ end
 
 function _M.qps()
     local rt = {}
-    local ngx_localtime = ngx.localtime()
-    local qps, err = cache:get("QPS." .. ngx_localtime)
-    if err ~= nil then
-        log.ngxlog("Can't get QPS in cache: " .. "QPS." .. ngx_localtime)
-    end
-    rt = {code=0, data={qps=qps, time=ngx_localtime}}
+    local ngx_time = ngx.time()
+    local onesecondago_ts = ngx_time - 1
+    local onesecondago_s = datetime.strftime(onesecondago_ts)
+
+    local qps = cache:get("QPS." .. onesecondago_s)
+
+    rt = {code=0, data={qps=qps or 0, time=onesecondago_s} }
     render.json(rt)
 end
 
